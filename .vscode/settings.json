@@ -1,0 +1,10 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/sanitas/.venv/Scripts/python.exe",
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/sanitas"
+  ],
+  "python.autoComplete.extraPaths": [
+    "${workspaceFolder}/sanitas"
+  ],
+  "python.terminal.activateEnvironment": true
+}

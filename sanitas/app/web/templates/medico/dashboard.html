@@ -1,0 +1,59 @@
+{% extends "base/base.html" %}
+
+{% block title %}Panel Médico - Hospital Sanitas{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <h2 class="card-title">Gestión de Pacientes</h2>
+    <div>
+      <span class="badge badge-medico">Acceso Médico / Clínico</span>
+    </div>
+  </div>
+
+  <form method="get" action="/medico/dashboard" style="margin-bottom: 1.5rem; display: flex; gap: 0.5rem;">
+    <input type="text" name="q" class="form-control" placeholder="Buscar por nombre, apellido, correo o DPI..." value="{{ q or '' }}">
+    <button type="submit" class="btn btn-primary">Buscar</button>
+    {% if q %}
+      <a href="/medico/dashboard" class="btn btn-secondary">Limpiar</a>
+    {% endif %}
+  </form>
+
+  {% if pacientes %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre Completo</th>
+          <th>Correo</th>
+          <th>DPI</th>
+          <th>Teléfono</th>
+          <th>Tipo Sangre</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in pacientes %}
+        <tr>
+          <td>#{{ p.id }}</td>
+          <td><strong>{{ p.usuario.nombre }} {{ p.usuario.apellido }}</strong></td>
+          <td>{{ p.usuario.correo }}</td>
+          <td>{{ p.dpi or 'No registrado' }}</td>
+          <td>{{ p.telefono or 'No registrado' }}</td>
+          <td>{{ p.tipo_sangre or '-' }}</td>
+          <td>
+            <a href="/medico/pacientes/{{ p.id }}" class="btn btn-primary btn-sm">Ver Historial</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <p>No se encontraron pacientes registrados con los criterios especificados.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

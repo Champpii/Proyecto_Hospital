@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Hospital Sanitas - Historial Médico{% endblock %}</title>
+  <link rel="stylesheet" href="/static/css/base/main.css">
+  <link rel="stylesheet" href="/static/css/components/components.css">
+  <link rel="stylesheet" href="/static/css/pages/pages.css">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  {% include "components/navbar.html" %}
+
+  <main class="container">
+    {% include "components/alerts.html" %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer style="text-align: center; padding: 1.5rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border-color); background: #ffffff;">
+    Hospital Sanitas &copy; 2026 &mdash; Sistema de Historial Médico
+  </footer>
+
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

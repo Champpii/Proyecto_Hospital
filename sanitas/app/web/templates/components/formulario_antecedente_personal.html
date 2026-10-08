@@ -1,0 +1,37 @@
+<div class="card" style="margin-top: 1rem;">
+  <div class="card-header">
+    <h3 class="card-title">Registrar Antecedente Personal</h3>
+  </div>
+  <form action="/medico/pacientes/{{ paciente.id }}/antecedentes-personales" method="post">
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label" for="categoria">Categoría *</label>
+        <select name="categoria" id="categoria" class="form-control" required>
+          <option value="alergia">Alergia</option>
+          <option value="enfermedad">Enfermedad</option>
+          <option value="cirugia">Cirugía</option>
+          <option value="vacuna">Vacuna</option>
+          <option value="medicamento">Medicamento</option>
+          <option value="habito">Hábito de salud</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="fecha">Fecha aproximada</label>
+        <input type="date" name="fecha" id="fecha" class="form-control">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="descripcion">Descripción *</label>
+      <input type="text" name="descripcion" id="descripcion" class="form-control" placeholder="Ej. Alergia a la penicilina, Apendicectomía..." required>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="observaciones">Observaciones adicionales</label>
+      <textarea name="observaciones" id="observaciones" rows="2" class="form-control" placeholder="Detalles, severidad, frecuencia..."></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar Antecedente Personal</button>
+  </form>
+</div>

@@ -1,0 +1,39 @@
+{% extends "base/base.html" %}
+
+{% block title %}Panel de Administración - Hospital Sanitas{% endblock %}
+
+{% block content %}
+<div class="card-header" style="border:none; margin-bottom: 1rem;">
+  <h2>Panel de Control - Administrador</h2>
+  <span class="badge badge-admin">Superusuario</span>
+</div>
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-value">{{ total_usuarios }}</div>
+    <div class="stat-label">Usuarios Totales</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value">{{ total_pacientes }}</div>
+    <div class="stat-label">Pacientes Registrados</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value">{{ total_medicos }}</div>
+    <div class="stat-label">Médicos Activos</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value">{{ total_admins }}</div>
+    <div class="stat-label">Administradores</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Acciones Administrativas</h3>
+  </div>
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+    <a href="/admin/usuarios" class="btn btn-primary">Gestionar Usuarios y Crear Médicos</a>
+    <a href="/medico/dashboard" class="btn btn-secondary">Ver y Gestionar Pacientes</a>
+  </div>
+</div>
+{% endblock %}

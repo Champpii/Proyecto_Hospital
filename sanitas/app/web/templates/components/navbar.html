@@ -1,0 +1,37 @@
+<nav class="navbar">
+  <a href="/" class="navbar-brand">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M12 2v20M2 12h20"/>
+    </svg>
+    Hospital Sanitas
+  </a>
+
+  <ul class="navbar-menu">
+    {% if usuario_actual %}
+      {% if usuario_actual.rol == 'paciente' %}
+        <li><a href="/paciente/dashboard" class="nav-link">Mi Historial</a></li>
+        <li><a href="/paciente/perfil" class="nav-link">Mis Datos</a></li>
+      {% elif usuario_actual.rol == 'medico' %}
+        <li><a href="/medico/dashboard" class="nav-link">Pacientes</a></li>
+      {% elif usuario_actual.rol == 'administrador' %}
+        <li><a href="/admin/dashboard" class="nav-link">Panel Admin</a></li>
+        <li><a href="/admin/usuarios" class="nav-link">Usuarios</a></li>
+        <li><a href="/medico/dashboard" class="nav-link">Pacientes</a></li>
+      {% endif %}
+
+      <li>
+        <span style="font-size: 0.85rem; color: var(--text-muted); padding: 0.2rem 0.5rem;">
+          {{ usuario_actual.nombre }} ({{ usuario_actual.rol }})
+        </span>
+      </li>
+      <li>
+        <form action="/auth/web/logout" method="post" style="display:inline;">
+          <button type="submit" class="btn btn-secondary btn-sm">Cerrar Sesión</button>
+        </form>
+      </li>
+    {% else %}
+      <li><a href="/login" class="nav-link">Iniciar Sesión</a></li>
+      <li><a href="/registro" class="btn btn-primary btn-sm">Auto-Registro Paciente</a></li>
+    {% endif %}
+  </ul>
+</nav>

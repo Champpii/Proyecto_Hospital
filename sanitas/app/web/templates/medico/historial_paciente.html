@@ -1,0 +1,157 @@
+{% extends "base/base.html" %}
+
+{% block title %}Historial Clínico - {{ paciente.usuario.nombre }} {{ paciente.usuario.apellido }}{% endblock %}
+
+{% block content %}
+<div class="patient-header">
+  <div>
+    <h2>Historial Clínico: {{ paciente.usuario.nombre }} {{ paciente.usuario.apellido }}</h2>
+    <div class="patient-info-list">
+      <div class="patient-info-item"><strong>Correo</strong>{{ paciente.usuario.correo }}</div>
+      <div class="patient-info-item"><strong>DPI</strong>{{ paciente.dpi or 'No registrado' }}</div>
+      <div class="patient-info-item"><strong>Fecha Nacimiento</strong>{{ paciente.fecha_nacimiento or 'No registrada' }}</div>
+      <div class="patient-info-item"><strong>Tipo Sangre</strong>{{ paciente.tipo_sangre or 'No registrado' }}</div>
+      <div class="patient-info-item"><strong>Teléfono</strong>{{ paciente.telefono or 'No registrado' }}</div>
+    </div>
+  </div>
+  <div>
+    <a href="/medico/dashboard" class="btn btn-secondary">Volver a Pacientes</a>
+  </div>
+</div>
+
+<!-- Sección Antecedentes Personales -->
+<div class="card history-section">
+  <div class="card-header">
+    <h3 class="card-title">Antecedentes Personales</h3>
+  </div>
+  {% if paciente.antecedentes_personales %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Categoría</th>
+          <th>Descripción</th>
+          <th>Fecha</th>
+          <th>Observaciones</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for ant in paciente.antecedentes_personales %}
+        <tr>
+          <td><span class="badge badge-{{ ant.categoria }}">{{ ant.categoria }}</span></td>
+          <td><strong>{{ ant.descripcion }}</strong></td>
+          <td>{{ ant.fecha or '-' }}</td>
+          <td>{{ ant.observaciones or '-' }}</td>
+          <td>
+            <form action="/medico/pacientes/{{ paciente.id }}/antecedentes-personales/{{ ant.id }}/eliminar" method="post" onsubmit="return confirm('¿Desea eliminar este antecedente personal?');" style="display:inline;">
+              <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <p>No hay antecedentes personales registrados.</p>
+  </div>
+  {% endif %}
+
+  {% include "components/formulario_antecedente_personal.html" %}
+</div>
+
+<!-- Sección Antecedentes Familiares -->
+<div class="card history-section">
+  <div class="card-header">
+    <h3 class="card-title">Antecedentes Familiares</h3>
+  </div>
+  {% if paciente.antecedentes_familiares %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Parentesco</th>
+          <th>Enfermedad / Condición</th>
+          <th>Estado</th>
+          <th>Observaciones</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for fam in paciente.antecedentes_familiares %}
+        <tr>
+          <td><strong>{{ fam.parentesco }}</strong></td>
+          <td>{{ fam.enfermedad }}</td>
+          <td>
+            <span class="badge {% if fam.estado == 'actual' %}badge-admin{% else %}badge-medico{% endif %}">
+              {{ fam.estado }}
+            </span>
+          </td>
+          <td>{{ fam.observaciones or '-' }}</td>
+          <td>
+            <form action="/medico/pacientes/{{ paciente.id }}/antecedentes-familiares/{{ fam.id }}/eliminar" method="post" onsubmit="return confirm('¿Desea eliminar este antecedente familiar?');" style="display:inline;">
+              <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <p>No hay antecedentes familiares registrados.</p>
+  </div>
+  {% endif %}
+
+  {% include "components/formulario_antecedente_familiar.html" %}
+</div>
+
+<!-- Sección Adjuntos -->
+<div class="card history-section">
+  <div class="card-header">
+    <h3 class="card-title">Exámenes de Laboratorio e Imágenes Adjuntas</h3>
+  </div>
+  {% if paciente.archivos %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nombre de Archivo</th>
+          <th>Tipo</th>
+          <th>Tamaño</th>
+          <th>Descripción</th>
+          <th>Fecha</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for arch in paciente.archivos %}
+        <tr>
+          <td><strong>{{ arch.nombre_archivo }}</strong></td>
+          <td>{{ arch.tipo_mime }}</td>
+          <td>{{ (arch.tamano / 1024) | round(1) }} KB</td>
+          <td>{{ arch.descripcion or '-' }}</td>
+          <td>{{ arch.creado_en.strftime('%d/%m/%Y %H:%M') }}</td>
+          <td style="display: flex; gap: 0.5rem;">
+            <a href="/archivos/{{ arch.id }}/descargar" target="_blank" class="btn btn-secondary btn-sm">Ver / Descargar</a>
+            <form action="/medico/pacientes/{{ paciente.id }}/archivos/{{ arch.id }}/eliminar" method="post" onsubmit="return confirm('¿Desea eliminar este archivo?');" style="display:inline;">
+              <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <p>No hay archivos o exámenes adjuntos para este paciente.</p>
+  </div>
+  {% endif %}
+
+  {% include "components/formulario_adjunto.html" %}
+</div>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "base/base.html" %}
+
+{% block title %}Gestión de Usuarios - Hospital Sanitas{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <h2 class="card-title">Registrar Nueva Cuenta de Médico</h2>
+  </div>
+  <form action="/admin/usuarios/medico" method="post">
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label" for="nombre_med">Nombre *</label>
+        <input type="text" id="nombre_med" name="nombre" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="apellido_med">Apellido *</label>
+        <input type="text" id="apellido_med" name="apellido" class="form-control" required>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label" for="correo_med">Correo institucional *</label>
+        <input type="email" id="correo_med" name="correo" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="pass_med">Contraseña inicial *</label>
+        <input type="password" id="pass_med" name="password" minlength="6" class="form-control" required>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Crear Cuenta Médica</button>
+  </form>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Usuarios del Sistema</h3>
+  </div>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Correo</th>
+          <th>Rol</th>
+          <th>Estado</th>
+          <th>Creado en</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for u in usuarios %}
+        <tr>
+          <td>#{{ u.id }}</td>
+          <td><strong>{{ u.nombre }} {{ u.apellido }}</strong></td>
+          <td>{{ u.correo }}</td>
+          <td>
+            <span class="badge badge-{{ u.rol }}">{{ u.rol }}</span>
+          </td>
+          <td>
+            {% if u.activo %}
+              <span style="color: var(--success); font-weight: 600;">Activo</span>
+            {% else %}
+              <span style="color: var(--danger); font-weight: 600;">Inactivo</span>
+            {% endif %}
+          </td>
+          <td>{{ u.creado_en.strftime('%d/%m/%Y') }}</td>
+          <td>
+            {% if u.id != usuario_actual.id %}
+            <form action="/admin/usuarios/{{ u.id }}/toggle-estado" method="post" style="display:inline;">
+              <button type="submit" class="btn btn-secondary btn-sm">
+                {% if u.activo %}Desactivar{% else %}Activar{% endif %}
+              </button>
+            </form>
+            {% else %}
+              <span style="font-size: 0.8rem; color: var(--text-muted);">(Tú)</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

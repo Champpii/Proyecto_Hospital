@@ -1,0 +1,33 @@
+<div class="card" style="margin-top: 1rem;">
+  <div class="card-header">
+    <h3 class="card-title">Registrar Antecedente Familiar</h3>
+  </div>
+  <form action="/medico/pacientes/{{ paciente.id }}/antecedentes-familiares" method="post">
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label" for="parentesco">Parentesco *</label>
+        <input type="text" name="parentesco" id="parentesco" class="form-control" placeholder="Ej. Padre, Madre, Abuelo paterno..." required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="estado">Estado de la afección *</label>
+        <select name="estado" id="estado" class="form-control" required>
+          <option value="actual">Actual</option>
+          <option value="pasada">Pasada</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="enfermedad">Enfermedad / Condición *</label>
+      <input type="text" name="enfermedad" id="enfermedad" class="form-control" placeholder="Ej. Diabetes tipo 2, Hipertensión arterial..." required>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="observaciones_fam">Observaciones</label>
+      <textarea name="observaciones" id="observaciones_fam" rows="2" class="form-control" placeholder="Edad de diagnóstico, tratamiento..."></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar Antecedente Familiar</button>
+  </form>
+</div>
